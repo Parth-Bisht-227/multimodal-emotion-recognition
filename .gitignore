@@ -1,0 +1,16 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.env/
+
+# Model files
+*.h5
+*.pth
+*.pt
+*.pkl
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
