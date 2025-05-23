@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Define dataset path
-dataset_path = r"D:\Mental health ai\archive\train"
+dataset_path = r"C:\Users\bisht\ProjectS DTU\Multimodal-Emotion-Recognition-System\data\fer2013.csv"
 
 # Emotion categories (modify if needed)
 emotions = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
