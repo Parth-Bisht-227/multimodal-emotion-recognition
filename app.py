@@ -27,7 +27,8 @@ def load_models():
 # Load HAAR face detector
 try:
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-except:
+except Exception as e:
+    st.error(f"❌ Failed to load face detector: {e}")
     face_cascade = None
 
 # Load models
@@ -84,6 +85,9 @@ if uploaded_file and face_model:
         st.image(image, caption=f"🧠 Predicted Emotion: {label} ({conf:.2f})", width=300)
         st.success(f"🧠 Emotion: {label} ({conf:.2f})")
 
+elif uploaded_file and not face_model:
+    st.error("❌ Facial emotion model not loaded. Please check the model file.")
+
 # === VOICE EMOTION SECTION ===
 st.header("🎤 Voice Emotion Detection")
 audio_file = st.file_uploader("Upload a short audio clip (≤3s)", type=["wav", "mp3", "m4a"], key="audio")
@@ -95,13 +99,17 @@ if audio_file and voice_model and voice_scaler and voice_label_encoder:
             tmp_input.write(audio_file.read())
             tmp_input_path = tmp_input.name
 
-        tmp_output_path = tmp_input_path + ".wav" if not audio_file.name.endswith(".wav") else tmp_input_path
+        tmp_output_path = tmp_input_path + ".wav" if not audio_file.name.lower().endswith(".wav") else tmp_input_path
         if tmp_output_path != tmp_input_path:
             ffmpeg.input(tmp_input_path).output(tmp_output_path).run(quiet=True, overwrite_output=True)
 
         y, sr = librosa.load(tmp_output_path, sr=22050, duration=3)
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
-        mfcc = mfcc[:, :130] if mfcc.shape[1] >= 130 else np.pad(mfcc, ((0, 0), (0, 130 - mfcc.shape[1])), mode='constant')
+        if mfcc.shape[1] < 130:
+            mfcc = np.pad(mfcc, ((0, 0), (0, 130 - mfcc.shape[1])), mode='constant')
+        else:
+            mfcc = mfcc[:, :130]
+
         mfcc_scaled = voice_scaler.transform(np.mean(mfcc, axis=1).reshape(1, -1))
         pred = voice_model.predict(mfcc_scaled, verbose=0)
         label = voice_label_encoder.inverse_transform([np.argmax(pred)])[0]
@@ -115,6 +123,9 @@ if audio_file and voice_model and voice_scaler and voice_label_encoder:
     except Exception as e:
         st.error(f"❌ Audio processing error: {e}")
 
+elif audio_file and (not voice_model or not voice_scaler or not voice_label_encoder):
+    st.error("❌ Voice emotion model or preprocessing files not loaded. Please check your model files.")
+
 # === INSTRUCTIONS ===
 st.header("🧾 How to Use")
 st.markdown("""
@@ -122,6 +133,6 @@ st.markdown("""
   - If your image contains a full face, enable **"Detect faces"**.
   - If you're using already cropped grayscale 48×48 images, **disable it**.
 - ✅ **Voice Emotion**:
-  - Upload a short voice clip (≤ 3 seconds). Supported: WAV, MP3, M4A.
+  - Upload a short voice clip (≤ 3 seconds). Supported formats: WAV, MP3, M4A.
 """)
 st.caption("Built with ❤️ by Team PPM")
