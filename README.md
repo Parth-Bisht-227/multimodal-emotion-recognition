@@ -158,13 +158,4 @@ Note: Due to size, datasets are not included in this repository.
 - Real-time deployment with edge devices or APIs
 - Convert to Docker and host via Streamlit Sharing or Hugging Face Spaces
 
-## License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
-
-## Author
-
-**Varun Kasa**  
-Master's in Information Systems, Northeastern University  
-Email: varunkasa8@gmail.com  
-GitHub: https://github.com/KasaVarun
