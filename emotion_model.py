@@ -132,7 +132,7 @@
 # #     cv2.destroyAllWindows()
 
 # # # Main Execution
-# # if __name__ == "__main__":
+# # if _name_ == "_main_":
 # #     # Step 1: Load Data
 # #     train_generator, val_generator = load_data()
 
@@ -337,7 +337,7 @@ def emotion_detection():
     cv2.destroyAllWindows()
 
 # Main Execution
-if __name__ == "__main__":
+if __name__ == "_main_":
     # Load data
     train_gen, val_gen = load_data()
     

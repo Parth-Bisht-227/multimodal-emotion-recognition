@@ -127,7 +127,7 @@ from sklearn.model_selection import train_test_split
 import joblib  # For saving scaler and encoder
 
 # Define the path to your dataset
-data_path = r"D:\mmd\multimodal-emotion-recognition\data\Audio_Speech_Actors_01-24"
+data_path = r"./data/audio_speech_actors_01-24"
 
 def extract_features(audio_path):
     try:
