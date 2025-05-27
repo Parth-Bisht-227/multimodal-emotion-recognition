@@ -43,12 +43,6 @@ A simple and interactive Streamlit application allows users to upload images or 
   - Dense → Dropout → Output (Softmax)
 - Output: 7 classes (Angry, Disgust, Fear, Happy, Neutral, Sad, Surprise)
 
-### Facial Emotion Model (VGG16 Transfer Learning)
-
-- Base Model: VGG16 (pretrained on ImageNet)
-- Custom head: GlobalAveragePooling2D → Dense → Dense(7)
-- Training: Final dense layers trainable, base frozen initially
-
 ### Voice Emotion Model
 
 - Feature extraction: MFCC (40 features)
@@ -92,6 +86,9 @@ pip install -r requirements.txt
 
 Make sure you download the required datasets separately and place them in the `data/` folder.
 
+If you download the FER data from Kaggle, you'll need to convert the .csv file into directory structure separately, for that run the csv_to_images.py file.
+
+Afterwards, fix the file paths and train the model accordingly.
 ## Usage
 
 To run the Streamlit application:
@@ -136,10 +133,12 @@ The models will be saved automatically after training.
    - Format: Images sorted into folders by emotion label
    - Size: 48x48 grayscale or RGB images
    - Suggestion: Use FER2013 or similar open datasets
+   - Link: https://www.kaggle.com/datasets/deadskull7/fer2013
 
 2. **Speech Emotion Dataset**:
    - Used: Custom dataset organized by actor folders
    - Each folder contains emotional speech samples (WAV/MP3)
+   - Link: https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio
 
 Note: Due to size, datasets are not included in this repository.
 
@@ -147,9 +146,8 @@ Note: Due to size, datasets are not included in this repository.
 
 | Model                | Accuracy |
 |---------------------|----------|
-| Facial CNN          | ~91%     |
-| Facial VGG16        | ~94%     |
-| Voice DNN (MFCC)    | ~85%     |
+| Facial CNN          | ~65%     |     
+| Voice DNN (MFCC)    | ~88%     |
 
 ## Future Work
 
@@ -159,3 +157,7 @@ Note: Due to size, datasets are not included in this repository.
 - Convert to Docker and host via Streamlit Sharing or Hugging Face Spaces
 
 
+### Authors
+- Parth Bisht
+- Manya Valecha
+- Puneet Chauhan
